@@ -1,32 +1,42 @@
 const readline = require('readline')
 const fs = require('fs')
 
-const { askQuestions } = require('./questions')
+// const { askQuestions } = require('./questions')
 
 const rawFile = fs.readFileSync('svc.json')
 const parsedSvc = JSON.parse(rawFile)
 
-askQuestions(['Class: ', 'CSS Class name: ', 'Identifier: ']).then(answers => {
-  console.log(answers)
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
 })
 
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout
-// })
+rl.setPrompt('Class, CSS, or Identifier > ')
 
-// rl.question('Class: ', answer => {
-//   const coreClassName = answer
-//   console.log(coreClassName)
-//   rl.question('CSS class name: ', answer => {
-//     const cssClassName = answer
-//     console.log(cssClassName)
-//   })
-//   rl.close()
-// })
+rl.prompt()
 
-// rl.question('CSS class name: ', answer => {
-//   const cssClassName = answer
-//   console.log(cssClassName)
-//   rl.close()
-// })
+rl.on('line', line => {
+  const lineOne = line
+  if (line.toLocaleLowerCase() === 'class') {
+    rl.setPrompt('Enter class name > ')
+    rl.prompt()
+    rl.on('line', line => {
+      const lineTwo = line
+      classSearch(lineOne, lineTwo)
+    })
+  } else if (line.toLocaleLowerCase() === 'css') {
+    rl.setPrompt('Enter class name > ')
+    rl.prompt()
+    rl.on('line', line => {
+      const lineTwo = line
+      classSearch(lineOne, lineTwo)
+    })
+  } else if (line.toLocaleLowerCase() === 'identifier') {
+    rl.setPrompt('Enter class name > ')
+    rl.prompt()
+    rl.on('line', line => {
+      const lineTwo = line
+      classSearch(lineOne, lineTwo)
+    })
+  }
+})
