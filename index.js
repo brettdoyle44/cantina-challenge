@@ -1,4 +1,8 @@
 const readline = require('readline')
+const fs = require('fs')
+
+const rawFile = fs.readFileSync('svc.json')
+const parsedSvc = JSON.parse(rawFile)
 
 const rl = readline.createInterface({
   input: process.stdin,
