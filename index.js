@@ -23,13 +23,16 @@ function findObjects(obj, key, value, results) {
     } else {
       for (let prop in theObject) {
         if (theObject.hasOwnProperty(prop)) {
-          if (prop === key && key === 'classNames') {
-            if (theObject[prop].includes(value)) {
+          if (
+            prop.toLowerCase() === key.toLowerCase() &&
+            key.toLowerCase() === 'classnames'
+          ) {
+            if (theObject[prop].includes(value.toLowerCase())) {
               results.push(theObject)
             }
             getObject(theObject[prop])
-          } else if (prop === key) {
-            if (theObject[prop] === value) {
+          } else if (prop.toLowerCase() === key.toLowerCase()) {
+            if (theObject[prop.toLowerCase()] === value.toLowerCase()) {
               results.push(theObject)
             }
           }
