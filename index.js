@@ -23,7 +23,12 @@ function findObjects(obj, key, value, results) {
     } else {
       for (let prop in theObject) {
         if (theObject.hasOwnProperty(prop)) {
-          if (prop === key) {
+          if (prop === key && key === 'classNames') {
+            if (theObject[prop].includes(value)) {
+              results.push(theObject)
+            }
+            getObject(theObject[prop])
+          } else if (prop === key) {
             if (theObject[prop] === value) {
               results.push(theObject)
             }
@@ -38,38 +43,36 @@ function findObjects(obj, key, value, results) {
       }
     }
   }
-
   getObject(obj)
 }
 
 rl.on('line', line => {
-  const key = line
+  let key = line
+  const finalResults = []
   if (line.toLocaleLowerCase() === 'class') {
     rl.setPrompt('Enter class name > ')
     rl.prompt()
     rl.on('line', line => {
       const value = line
-      const finalResults = []
       const result = findObjects(parsedSvc, key, value, finalResults)
-      console.log('finalResults: ', JSON.stringify(finalResults, null, 2))
+      console.log('Your view: ', JSON.stringify(finalResults, null, 2))
     })
   } else if (line.toLocaleLowerCase() === 'css') {
+    key = 'classNames'
     rl.setPrompt('Enter css class name > ')
     rl.prompt()
     rl.on('line', line => {
       const value = line
-      const finalResults = []
       const result = findObjects(parsedSvc, key, value, finalResults)
-      console.log('finalResults: ', JSON.stringify(finalResults, null, 2))
+      console.log('Your view: ', JSON.stringify(finalResults, null, 2))
     })
   } else if (line.toLocaleLowerCase() === 'identifier') {
     rl.setPrompt('Enter identifier name > ')
     rl.prompt()
     rl.on('line', line => {
       const value = line
-      const finalResults = []
       const result = findObjects(parsedSvc, key, value, finalResults)
-      console.log('finalResults: ', JSON.stringify(finalResults, null, 2))
+      console.log('Your view: ', JSON.stringify(finalResults, null, 2))
     })
   }
 })
