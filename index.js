@@ -1,8 +1,6 @@
 const readline = require('readline')
 const fs = require('fs')
 
-// const { askQuestions } = require('./questions')
-
 const rawFile = fs.readFileSync('svc.json')
 const parsedSvc = JSON.parse(rawFile)
 
@@ -15,28 +13,63 @@ rl.setPrompt('Class, CSS, or Identifier > ')
 
 rl.prompt()
 
+function findObjects(obj, key, value, results) {
+  function getObject(theObject) {
+    let result = null
+    if (theObject instanceof Array) {
+      for (let i = 0; i < theObject.length; i++) {
+        getObject(theObject[i])
+      }
+    } else {
+      for (let prop in theObject) {
+        if (theObject.hasOwnProperty(prop)) {
+          if (prop === key) {
+            if (theObject[prop] === value) {
+              results.push(theObject)
+            }
+          }
+          if (
+            theObject[prop] instanceof Object ||
+            theObject[prop] instanceof Array
+          ) {
+            getObject(theObject[prop])
+          }
+        }
+      }
+    }
+  }
+
+  getObject(obj)
+}
+
 rl.on('line', line => {
-  const lineOne = line
+  const key = line
   if (line.toLocaleLowerCase() === 'class') {
     rl.setPrompt('Enter class name > ')
     rl.prompt()
     rl.on('line', line => {
-      const lineTwo = line
-      classSearch(lineOne, lineTwo)
+      const value = line
+      const finalResults = []
+      const result = findObjects(parsedSvc, key, value, finalResults)
+      console.log('finalResults: ', JSON.stringify(finalResults, null, 2))
     })
   } else if (line.toLocaleLowerCase() === 'css') {
-    rl.setPrompt('Enter class name > ')
+    rl.setPrompt('Enter css class name > ')
     rl.prompt()
     rl.on('line', line => {
-      const lineTwo = line
-      classSearch(lineOne, lineTwo)
+      const value = line
+      const finalResults = []
+      const result = findObjects(parsedSvc, key, value, finalResults)
+      console.log('finalResults: ', JSON.stringify(finalResults, null, 2))
     })
   } else if (line.toLocaleLowerCase() === 'identifier') {
-    rl.setPrompt('Enter class name > ')
+    rl.setPrompt('Enter identifier name > ')
     rl.prompt()
     rl.on('line', line => {
-      const lineTwo = line
-      classSearch(lineOne, lineTwo)
+      const value = line
+      const finalResults = []
+      const result = findObjects(parsedSvc, key, value, finalResults)
+      console.log('finalResults: ', JSON.stringify(finalResults, null, 2))
     })
   }
 })
