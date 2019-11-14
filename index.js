@@ -1,15 +1,32 @@
 const readline = require('readline')
 const fs = require('fs')
 
+const { askQuestions } = require('./questions')
+
 const rawFile = fs.readFileSync('svc.json')
 const parsedSvc = JSON.parse(rawFile)
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+askQuestions(['Class: ', 'CSS Class name: ', 'Identifier: ']).then(answers => {
+  console.log(answers)
 })
 
-rl.question('What do you think of Node.js? ', answer => {
-  console.log(`Thank you for your valuable feedback: ${answer}`)
-  rl.close()
-})
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout
+// })
+
+// rl.question('Class: ', answer => {
+//   const coreClassName = answer
+//   console.log(coreClassName)
+//   rl.question('CSS class name: ', answer => {
+//     const cssClassName = answer
+//     console.log(cssClassName)
+//   })
+//   rl.close()
+// })
+
+// rl.question('CSS class name: ', answer => {
+//   const cssClassName = answer
+//   console.log(cssClassName)
+//   rl.close()
+// })
