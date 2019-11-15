@@ -23,7 +23,7 @@ function findObjects(obj, key, value, results) {
     } else {
       for (let prop in theObject) {
         if (theObject.hasOwnProperty(prop)) {
-          if (prop === key && key === 'classnames') {
+          if (prop === key && key === 'classNames') {
             if (theObject[prop].includes(value)) {
               results.push(theObject)
             }
