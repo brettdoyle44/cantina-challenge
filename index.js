@@ -23,16 +23,13 @@ function findObjects(obj, key, value, results) {
     } else {
       for (let prop in theObject) {
         if (theObject.hasOwnProperty(prop)) {
-          if (
-            prop.toLowerCase() === key.toLowerCase() &&
-            key.toLowerCase() === 'classnames'
-          ) {
-            if (theObject[prop].includes(value.toLowerCase())) {
+          if (prop === key && key === 'classnames') {
+            if (theObject[prop].includes(value)) {
               results.push(theObject)
             }
             getObject(theObject[prop])
-          } else if (prop.toLowerCase() === key.toLowerCase()) {
-            if (theObject[prop.toLowerCase()] === value.toLowerCase()) {
+          } else if (prop === key) {
+            if (theObject[prop] === value) {
               results.push(theObject)
             }
           }
@@ -65,7 +62,10 @@ rl.on('line', line => {
     rl.setPrompt('Enter css class name > ')
     rl.prompt()
     rl.on('line', line => {
-      const value = line
+      let value = line
+      if (line.includes('.')) {
+        value = line.substr(1)
+      }
       const result = findObjects(parsedSvc, key, value, finalResults)
       console.log('Your view: ', JSON.stringify(finalResults, null, 2))
     })
@@ -73,7 +73,10 @@ rl.on('line', line => {
     rl.setPrompt('Enter identifier name > ')
     rl.prompt()
     rl.on('line', line => {
-      const value = line
+      let value = line
+      if (line.includes('#')) {
+        value = line.substr(1)
+      }
       const result = findObjects(parsedSvc, key, value, finalResults)
       console.log('Your view: ', JSON.stringify(finalResults, null, 2))
     })
